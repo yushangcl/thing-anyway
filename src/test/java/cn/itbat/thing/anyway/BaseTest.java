@@ -1,16 +1,16 @@
 package cn.itbat.thing.anyway;
 
-import org.junit.Test;
+import lombok.extern.java.Log;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
+/**
+ * @author log.r   (;￢＿￢)   
+ * @date 2018-07-10 下午4:05
+ **/
+@Log
 @SpringBootTest
-public class ThingAnywayApplicationTests {
-
-	@Test
-	public void contextLoads() {
-	}
-
+@RunWith(SpringRunner.class)
+public class BaseTest {
 }
