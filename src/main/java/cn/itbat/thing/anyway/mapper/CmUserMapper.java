@@ -27,4 +27,6 @@ public interface CmUserMapper {
     int updateByPrimaryKeySelective(CmUser record);
 
     int updateByPrimaryKey(CmUser record);
+
+    CmUser findByName(@Param("userName") String userName);
 }

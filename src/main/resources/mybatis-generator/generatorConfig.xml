@@ -78,7 +78,7 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <table tableName="ru_operation_log" enableCountByExample="true" enableDeleteByExample="true"
+        <table tableName="sys_user_role" enableCountByExample="true" enableDeleteByExample="true"
                enableSelectByExample="true" enableUpdateByExample="true"/>
     </context>
 </generatorConfiguration>

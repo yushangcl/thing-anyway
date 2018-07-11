@@ -1,8 +1,8 @@
 package cn.itbat.thing.anyway.service;
 
 
-import cn.itbat.thing.anyway.utils.DOCN;
-import cn.itbat.thing.anyway.utils.UKID;
+import cn.itbat.thing.anyway.common.utils.DOCN;
+import cn.itbat.thing.anyway.common.utils.UKID;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 

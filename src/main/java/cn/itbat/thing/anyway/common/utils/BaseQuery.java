@@ -1,4 +1,4 @@
-package cn.itbat.thing.anyway.utils;
+package cn.itbat.thing.anyway.common.utils;
 
 import java.util.Map;
 

@@ -4,9 +4,7 @@ package cn.itbat.thing.anyway.service.impl;
 import cn.itbat.thing.anyway.mapper.RuOperationLogMapper;
 import cn.itbat.thing.anyway.model.RuOperationLog;
 import cn.itbat.thing.anyway.service.RuOperationLogService;
-import cn.itbat.thing.anyway.utils.UKID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cn.itbat.thing.anyway.common.utils.UKID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

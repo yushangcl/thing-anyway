@@ -1,8 +1,111 @@
 package cn.itbat.thing.anyway.controller;
 
+import cn.itbat.thing.anyway.common.base.BaseController;
+import cn.itbat.thing.anyway.common.utils.AbsResponse;
+import cn.itbat.thing.anyway.common.utils.MD5Utils;
+import cn.itbat.thing.anyway.common.utils.StringUtils;
+import cn.itbat.thing.anyway.common.utils.vcode.Captcha;
+import cn.itbat.thing.anyway.common.utils.vcode.GifCaptcha;
+import cn.itbat.thing.anyway.model.CmSalt;
+import cn.itbat.thing.anyway.model.CmUser;
+import cn.itbat.thing.anyway.service.CmSaltService;
+import cn.itbat.thing.anyway.service.CmUserService;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.session.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+
 /**
  * @author log.r   (;￢＿￢)   
  * @date 2018-07-10 下午4:06
  **/
-public class LoginController {
+@Controller
+public class LoginController extends BaseController {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+    @Resource
+    private CmUserService cmUserService;
+
+    @Resource
+    private CmSaltService cmSaltService;
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public AbsResponse login(@RequestBody Map<String, Object> map) {
+        String userName = String.valueOf(map.get("userName"));
+        String password = String.valueOf(map.get("password"));
+        String code = String.valueOf(map.get("code"));
+        Boolean rememberMe = Boolean.valueOf(String.valueOf(map.get("rememberMe")));
+        //验证码校验
+        if (StringUtils.isEmpty(code)) {
+            return AbsResponse.warn("验证码不能为空！");
+        }
+        Session session = super.getSession();
+        String sessionCode = (String) session.getAttribute("_code");
+        session.removeAttribute("_code");
+        if (!code.toUpperCase().equals(sessionCode)) {
+            return AbsResponse.warn("验证码不正确!");
+        }
+
+        CmUser cmUser = cmUserService.findByName(userName);
+        if (cmUser == null) {
+            return AbsResponse.warn("账户不存在！");
+        }
+
+        //用户名密码校验
+        CmSalt cmSalt = cmSaltService.findSalt(cmUser.getSaltUkid());
+        password = MD5Utils.encrypt(userName, password, cmSalt.getSaltValue());
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, password, rememberMe);
+        try {
+            super.login(token);
+            return AbsResponse.ok();
+        } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e) {
+            return AbsResponse.error(e.getMessage());
+        } catch (AuthenticationException e) {
+            return AbsResponse.error("认证失败！");
+        }
+    }
+
+    @GetMapping(value = "/vCode")
+    public void getVerificationCode(HttpServletResponse response, HttpServletRequest request) {
+        try {
+            response.setHeader("Pragma", "No-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expires", 0);
+            response.setContentType("image/gif");
+
+            //生成验证码
+            Long start = System.currentTimeMillis();
+            Captcha captcha = new GifCaptcha(146, 33, 4);
+            captcha.out(response.getOutputStream());
+            Long mid = System.currentTimeMillis();
+            System.out.println(mid - start);
+            HttpSession session = request.getSession(true);
+            session.removeAttribute("_code");
+            session.setAttribute("_code", captcha.text().toUpperCase());
+            Long end = System.currentTimeMillis();
+            System.out.println(end - start);
+            logger.debug("【_code】生成验证码：" + captcha.text().toUpperCase());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

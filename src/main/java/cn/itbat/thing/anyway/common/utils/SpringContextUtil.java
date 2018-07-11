@@ -1,4 +1,4 @@
-package cn.itbat.thing.anyway.utils;
+package cn.itbat.thing.anyway.common.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

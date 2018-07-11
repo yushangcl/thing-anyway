@@ -5,6 +5,6 @@
        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
     <!-- ApplicationContext -->
-    <bean id="springContextUtil" class="cn.itbat.thing.anyway.utils.SpringContextUtil" lazy-init="false"/>
+    <bean id="springContextUtil" class="cn.itbat.thing.anyway.common.utils.SpringContextUtil" lazy-init="false"/>
 
 </beans>

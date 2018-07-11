@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itbat.thing.anyway.mapper.CmSaltMapper" >
+  <resultMap id="BaseResultMap" type="cn.itbat.thing.anyway.model.CmSalt" >
+    <id column="salt_ukid" property="saltUkid" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="salt_value" property="saltValue" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    salt_ukid, user_id, salt_value, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.itbat.thing.anyway.model.CmSaltExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cm_salt
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from cm_salt
+    where salt_ukid = #{saltUkid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from cm_salt
+    where salt_ukid = #{saltUkid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.itbat.thing.anyway.model.CmSaltExample" >
+    delete from cm_salt
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.itbat.thing.anyway.model.CmSalt" >
+    insert into cm_salt (salt_ukid, user_id, salt_value, 
+      create_time, update_time)
+    values (#{saltUkid,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{saltValue,jdbcType=VARCHAR}, 
+      now(), now())
+  </insert>
+  <insert id="insertSelective" parameterType="cn.itbat.thing.anyway.model.CmSalt" >
+    insert into cm_salt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="saltUkid != null" >
+        salt_ukid,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="saltValue != null" >
+        salt_value,
+      </if>
+      create_time,
+      update_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="saltUkid != null" >
+        #{saltUkid,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="saltValue != null" >
+        #{saltValue,jdbcType=VARCHAR},
+      </if>
+      now(),
+      now(),
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.itbat.thing.anyway.model.CmSaltExample" resultType="java.lang.Integer" >
+    select count(*) from cm_salt
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cm_salt
+    <set >
+      <if test="record.saltUkid != null" >
+        salt_ukid = #{record.saltUkid,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.saltValue != null" >
+        salt_value = #{record.saltValue,jdbcType=VARCHAR},
+      </if>
+      update_time = now(),
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cm_salt
+    set salt_ukid = #{record.saltUkid,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      salt_value = #{record.saltValue,jdbcType=VARCHAR},
+      update_time = now()
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.itbat.thing.anyway.model.CmSalt" >
+    update cm_salt
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="saltValue != null" >
+        salt_value = #{saltValue,jdbcType=VARCHAR},
+      </if>
+      update_time = now(),
+    </set>
+    where salt_ukid = #{saltUkid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.itbat.thing.anyway.model.CmSalt" >
+    update cm_salt
+    set user_id = #{userId,jdbcType=BIGINT},
+      salt_value = #{saltValue,jdbcType=VARCHAR},
+      update_time = now()
+    where salt_ukid = #{saltUkid,jdbcType=BIGINT}
+  </update>
+  <cache />
+</mapper>

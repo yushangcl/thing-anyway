@@ -1,4 +1,4 @@
-package cn.itbat.thing.anyway.utils;
+package cn.itbat.thing.anyway.common.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

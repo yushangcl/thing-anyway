@@ -1,4 +1,4 @@
-package cn.itbat.thing.anyway.utils;
+package cn.itbat.thing.anyway.common.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,6 +12,14 @@ import java.util.Map;
 public class AbsResponse<T> implements Serializable {
 
     private static final long serialVersionUID = 5014379068811962022L;
+
+    // 成功
+    private static final Integer SUCCESS = 0;
+    // 警告
+    private static final Integer WARN = 1;
+    // 异常 失败
+    private static final Integer FAIL = 500;
+
     private int code;
     private String msg;
     @JsonIgnore
@@ -63,6 +71,34 @@ public class AbsResponse<T> implements Serializable {
 
     public AbsResponse<T> setResult(AbsResponse<?> ano) {
         return this.setResult(ano.getCode(), ano.getMsg(), ano.getBody());
+    }
+
+    public static AbsResponse error(String msg) {
+        AbsResponse abs = new AbsResponse();
+        abs.setCode(FAIL);
+        abs.setMsg(msg);
+        return abs;
+    }
+
+    public static AbsResponse warn(String msg) {
+        AbsResponse abs = new AbsResponse();
+        abs.setCode(WARN);
+        abs.setMsg(msg);
+        return abs;
+    }
+
+    public static AbsResponse ok(String msg) {
+        AbsResponse abs = new AbsResponse();
+        abs.setCode(SUCCESS);
+        abs.setMsg(msg);
+        return abs;
+    }
+
+    public static AbsResponse ok() {
+        AbsResponse abs = new AbsResponse();
+        abs.setCode(SUCCESS);
+        abs.setMsg("操作成功！");
+        return abs;
     }
 
     @JsonIgnore

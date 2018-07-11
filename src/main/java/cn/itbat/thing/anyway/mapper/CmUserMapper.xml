@@ -300,5 +300,12 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
+
+  <select id="findByName" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM cm_user c
+    WHERE c.user_name = #{userName}
+  </select>
   <cache />
 </mapper>
