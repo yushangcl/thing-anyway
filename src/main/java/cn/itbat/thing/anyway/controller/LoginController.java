@@ -10,15 +10,14 @@ import cn.itbat.thing.anyway.model.CmSalt;
 import cn.itbat.thing.anyway.model.CmUser;
 import cn.itbat.thing.anyway.service.CmSaltService;
 import cn.itbat.thing.anyway.service.CmUserService;
+import cn.itbat.thing.anyway.service.RuOperationLogService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +39,9 @@ public class LoginController extends BaseController {
     @Resource
     private CmSaltService cmSaltService;
 
+    @Resource
+    private RuOperationLogService ruOperationLogService;
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -56,6 +58,12 @@ public class LoginController extends BaseController {
         if (StringUtils.isEmpty(code)) {
             return AbsResponse.warn("验证码不能为空！");
         }
+
+        //参数校验
+        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)){
+            return AbsResponse.warn("参数为空！");
+        }
+
         Session session = super.getSession();
         String sessionCode = (String) session.getAttribute("_code");
         session.removeAttribute("_code");
@@ -72,13 +80,20 @@ public class LoginController extends BaseController {
         CmSalt cmSalt = cmSaltService.findSalt(cmUser.getSaltUkid());
         password = MD5Utils.encrypt(userName, password, cmSalt.getSaltValue());
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password, rememberMe);
+        String remark = null;
         try {
             super.login(token);
+            remark = "login_success";
             return AbsResponse.ok();
         } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e) {
+            remark = "account error";
             return AbsResponse.error(e.getMessage());
         } catch (AuthenticationException e) {
+            remark = "Authentication failure";
             return AbsResponse.error("认证失败！");
+        } finally {
+            //记录登录日志
+            ruOperationLogService.insertLoginLog(cmUser.getUserId(), remark);
         }
     }
 
@@ -105,6 +120,23 @@ public class LoginController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping("/")
+    public String redirectIndex() {
+        return "redirect:/index";
+    }
+
+    @GetMapping("/403")
+    public String forbid() {
+        return "403";
+    }
+
+    @RequestMapping("/index")
+    public String index(Model model) {
+        CmUser user = super.getCurrentUser();
+        model.addAttribute("user", user);
+        return "index";
     }
 
 

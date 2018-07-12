@@ -1,5 +1,6 @@
 package cn.itbat.thing.anyway.service;
 
+import cn.itbat.thing.anyway.common.utils.AbsResponse;
 import cn.itbat.thing.anyway.model.CmUser;
 
 /**
@@ -15,4 +16,14 @@ public interface CmUserService {
      * @return CmUser
      */
     CmUser findByName(String userName);
+
+    /**
+     * 用户注册 （暂未验证邮箱）
+     *
+     * @param userName 用户名
+     * @param password 密码
+     * @param email    邮箱
+     * @return
+     */
+    AbsResponse register(String userName, String password, String email);
 }

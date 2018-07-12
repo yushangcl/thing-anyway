@@ -61,4 +61,17 @@ public class RuOperationLogServiceImpl implements RuOperationLogService {
         ruOperationLogMapper.insert(operationLog);
         return operationLog.getOperationLogUkid();
     }
+
+    @Override
+    public Long insertLoginLog(Long userId, String status) {
+        RuOperationLog operationLog = new RuOperationLog();
+        operationLog.setOperationLogUkid(UKID.getUKID());
+        operationLog.setRelatedUkid(userId);
+        operationLog.setRelatedType("LOGIN");
+        operationLog.setOperationName("登录操作");
+        operationLog.setLogUserId(userId);
+        operationLog.setLogDate(new Date());
+        operationLog.setLogRemark(status);
+        return operationLog.getOperationLogUkid();
+    }
 }

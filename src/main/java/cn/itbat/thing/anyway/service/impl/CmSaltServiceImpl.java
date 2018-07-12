@@ -1,5 +1,6 @@
 package cn.itbat.thing.anyway.service.impl;
 
+import cn.itbat.thing.anyway.common.utils.UKID;
 import cn.itbat.thing.anyway.mapper.CmSaltMapper;
 import cn.itbat.thing.anyway.model.CmSalt;
 import cn.itbat.thing.anyway.service.CmSaltService;
@@ -19,5 +20,15 @@ public class CmSaltServiceImpl implements CmSaltService {
     @Override
     public CmSalt findSalt(Long saltUkid){
        return cmSaltMapper.selectByPrimaryKey(saltUkid);
+    }
+
+    @Override
+    public Long insertSalt(String salt, Long userId) {
+        CmSalt cmSalt = new CmSalt();
+        cmSalt.setSaltUkid(UKID.getUKID());
+        cmSalt.setSaltValue(salt);
+        cmSalt.setUserId(userId);
+        cmSaltMapper.insertSelective(cmSalt);
+        return cmSalt.getSaltUkid();
     }
 }

@@ -1,6 +1,7 @@
 package cn.itbat.thing.anyway.common.utils.vcode;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * 随机数工具

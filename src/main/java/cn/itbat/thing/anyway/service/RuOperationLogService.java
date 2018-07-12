@@ -41,4 +41,13 @@ public interface RuOperationLogService {
      */
     Long insertOperationLog(Long relatedUkid, String relatedType, String operationName, Long userId, String remark,
                             String logDyn1, String logDyn2);
+
+    /**
+     * 记录登入操作
+     *
+     * @param userId 用户id
+     * @param status 登录状态
+     * @return operationLogUkid
+     */
+    Long insertLoginLog(Long userId, String status);
 }

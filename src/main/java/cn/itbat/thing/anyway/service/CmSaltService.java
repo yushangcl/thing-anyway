@@ -15,4 +15,13 @@ public interface CmSaltService {
      * @return CmSalt
      */
     CmSalt findSalt(Long saltUkid);
+
+    /**
+     * 插入新生成的盐值
+     *
+     * @param salt
+     * @param userId
+     * @return
+     */
+    Long insertSalt(String salt, Long userId);
 }
