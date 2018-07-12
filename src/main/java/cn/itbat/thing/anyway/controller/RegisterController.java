@@ -2,11 +2,9 @@ package cn.itbat.thing.anyway.controller;
 
 import cn.itbat.thing.anyway.common.utils.AbsResponse;
 import cn.itbat.thing.anyway.common.utils.StringUtils;
-import cn.itbat.thing.anyway.model.CmUser;
 import cn.itbat.thing.anyway.service.CmUserService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -38,7 +36,6 @@ public class RegisterController {
             return this.cmUserService.register(userName, password, email);
         } catch (Exception e) {
             e.printStackTrace();
-
             return AbsResponse.error("注册失败，请联系网站管理员！");
         }
     }

@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
  * @date 2018-07-11 上午10:10
  **/
 @Configuration
-public class ShiroConfig {
+public class ShiroConfiguration {
 
     @Value("${spring.redis.host}")
     private String host;
@@ -60,12 +60,16 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+        // 如果不设置默认会自动寻找Web工程根目录下的"/login"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
+        // 登录成功后要跳转的连接
         shiroFilterFactoryBean.setSuccessUrl("/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
+        // 加载shiroFilter权限控制规则（从数据库读取然后配置）
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
@@ -142,6 +146,9 @@ public class ShiroConfig {
         return redisSessionDAO;
     }
 
+    /**
+     * Session  管理
+     */
     @Bean
     public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();

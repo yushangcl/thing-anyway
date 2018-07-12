@@ -72,6 +72,7 @@ public class RuOperationLogServiceImpl implements RuOperationLogService {
         operationLog.setLogUserId(userId);
         operationLog.setLogDate(new Date());
         operationLog.setLogRemark(status);
+        ruOperationLogMapper.insertSelective(operationLog);
         return operationLog.getOperationLogUkid();
     }
 }

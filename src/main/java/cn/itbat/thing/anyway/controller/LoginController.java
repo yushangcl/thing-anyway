@@ -49,18 +49,18 @@ public class LoginController extends BaseController {
 
     @PostMapping("/login")
     @ResponseBody
-    public AbsResponse login(@RequestBody Map<String, Object> map) {
-        String userName = String.valueOf(map.get("userName"));
-        String password = String.valueOf(map.get("password"));
-        String code = String.valueOf(map.get("code"));
-        Boolean rememberMe = Boolean.valueOf(String.valueOf(map.get("rememberMe")));
+    public AbsResponse login(String username, String password, String code, Boolean rememberMe) {
+//        String userName = String.valueOf(map.get("userName"));
+//        String password = String.valueOf(map.get("password"));
+//        String code = String.valueOf(map.get("code"));
+//        Boolean rememberMe = Boolean.valueOf(String.valueOf(map.get("rememberMe")));
         //验证码校验
         if (StringUtils.isEmpty(code)) {
             return AbsResponse.warn("验证码不能为空！");
         }
 
         //参数校验
-        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)){
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
             return AbsResponse.warn("参数为空！");
         }
 
@@ -71,15 +71,15 @@ public class LoginController extends BaseController {
             return AbsResponse.warn("验证码不正确!");
         }
 
-        CmUser cmUser = cmUserService.findByName(userName);
+        CmUser cmUser = cmUserService.findByName(username);
         if (cmUser == null) {
             return AbsResponse.warn("账户不存在！");
         }
 
         //用户名密码校验
         CmSalt cmSalt = cmSaltService.findSalt(cmUser.getSaltUkid());
-        password = MD5Utils.encrypt(userName, password, cmSalt.getSaltValue());
-        UsernamePasswordToken token = new UsernamePasswordToken(userName, password, rememberMe);
+        password = MD5Utils.encrypt(username, password, cmSalt.getSaltValue());
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
         String remark = null;
         try {
             super.login(token);
@@ -109,13 +109,9 @@ public class LoginController extends BaseController {
             Long start = System.currentTimeMillis();
             Captcha captcha = new GifCaptcha(146, 33, 4);
             captcha.out(response.getOutputStream());
-            Long mid = System.currentTimeMillis();
-            System.out.println(mid - start);
             HttpSession session = request.getSession(true);
             session.removeAttribute("_code");
             session.setAttribute("_code", captcha.text().toUpperCase());
-            Long end = System.currentTimeMillis();
-            System.out.println(end - start);
             logger.debug("【_code】生成验证码：" + captcha.text().toUpperCase());
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,6 +131,9 @@ public class LoginController extends BaseController {
     @RequestMapping("/index")
     public String index(Model model) {
         CmUser user = super.getCurrentUser();
+        if (user == null) {
+            return "login";
+        }
         model.addAttribute("user", user);
         return "index";
     }

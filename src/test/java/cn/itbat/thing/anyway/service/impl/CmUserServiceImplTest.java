@@ -22,7 +22,7 @@ public class CmUserServiceImplTest extends BaseTest {
 
     @Test
     public void register() {
-        AbsResponse absResponse = cmUserService.register("test_123", "Whh123456489", "test@email.com");
+            AbsResponse absResponse = cmUserService.register("test_123", "Whh123456489", "test@email.com");
         Assert.assertNotNull(absResponse);
         System.out.println(absResponse);
     }
