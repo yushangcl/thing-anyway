@@ -20,6 +20,7 @@ import java.util.Date;
  * @date 2018-07-10 下午3:45
  **/
 @Service
+@Transactional
 public class CmUserServiceImpl implements CmUserService {
 
     @Autowired
@@ -39,9 +40,9 @@ public class CmUserServiceImpl implements CmUserService {
         return cmUserMapper.findByName(userName);
     }
 
-    @Transactional
+
     @Override
-    public AbsResponse register(String userName, String password, String email) {
+    public AbsResponse register(String userName, String password, String email) throws Exception {
         // todo 以后需要对密码加密传输
 
         //判断用户名格式 英文，数字组合 6-16位
@@ -88,7 +89,8 @@ public class CmUserServiceImpl implements CmUserService {
 
         //记录日志
         ruOperationLogService.insertOperationLog(userId, "USER_ID", "用户注册", userId, "注册成功");
-        return AbsResponse.ok();
+        throw new Exception();
+//        return AbsResponse.ok();
     }
 
 }

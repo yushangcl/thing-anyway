@@ -1,13 +1,15 @@
 package cn.itbat.thing.anyway.controller;
 
 import cn.itbat.thing.anyway.common.utils.AbsResponse;
+import cn.itbat.thing.anyway.common.utils.DateUtil;
 import cn.itbat.thing.anyway.common.utils.StringUtils;
 import cn.itbat.thing.anyway.service.CmUserService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.itbat.thing.anyway.service.RedisService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -22,6 +24,9 @@ public class RegisterController {
 
     @Resource
     private CmUserService cmUserService;
+
+    @Resource
+    RedisService redisService;
 
     @RequestMapping("/web")
     public AbsResponse register(@RequestBody Map<String, Object> map) {
@@ -38,6 +43,19 @@ public class RegisterController {
             e.printStackTrace();
             return AbsResponse.error("注册失败，请联系网站管理员！");
         }
+    }
+
+    @GetMapping(value = "/activate")
+    public AbsResponse activate(String code) {
+        //處理key
+        Long userId = Long.valueOf(code.substring(14, 20));
+        String vCode = redisService.get(userId.toString());
+        if (vCode.equals(code)) {
+            //删除key
+            redisService.del(userId.toString());
+            return AbsResponse.ok("邮箱验证成功");
+        }
+        return AbsResponse.warn("激活链接");
     }
 
 }

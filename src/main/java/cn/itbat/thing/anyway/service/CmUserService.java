@@ -2,6 +2,7 @@ package cn.itbat.thing.anyway.service;
 
 import cn.itbat.thing.anyway.common.utils.AbsResponse;
 import cn.itbat.thing.anyway.model.CmUser;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author log.r   (;￢＿￢)   
@@ -25,5 +26,6 @@ public interface CmUserService {
      * @param email    邮箱
      * @return
      */
-    AbsResponse register(String userName, String password, String email);
+    @Transactional
+    AbsResponse register(String userName, String password, String email) throws Exception;
 }

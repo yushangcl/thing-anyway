@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ import java.util.Date;
  * @date 2018-07-13 下午1:44
  **/
 @Service
+@Transactional
 public class MailServiceImpl implements MailService {
 
     private static final Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
@@ -45,6 +47,9 @@ public class MailServiceImpl implements MailService {
 
     @Resource
     private RedisService redisService;
+
+//    @Resource
+//    private RedisTemplate<String, String> redisTemplate;
 
     @Resource
     private RuOperationLogService operationLogService;
@@ -78,10 +83,10 @@ public class MailServiceImpl implements MailService {
                 helper.addAttachment(fileName, file);
             }
             mailSender.send(message);
-            logger.info("带附件的邮件已经发送。");
+            logger.info("邮件发送成功。");
             return true;
         } catch (MessagingException e) {
-            logger.error("发送带附件的邮件时发生异常！", e);
+            logger.error("邮件发送失败！", e);
             return false;
         }
 
@@ -94,19 +99,20 @@ public class MailServiceImpl implements MailService {
      * @param username    用户名
      * @param mailAddress 收件人地址
      */
-    @Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+//    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
     public void sendEmail(String username, Long userId, String mailAddress) {
         //创建邮件正文
         Context context = new Context();
         //生成邮件激活唯一识别码
-        String code = DateUtil.format(new Date(), DateUtil.DATE_FORMAT_TIME) + RandomUtil.generateStr(24);
+        String code = DateUtil.format(new Date(), DateUtil.DATE_FORMAT_TIME) + userId + RandomUtil.generateStr(24);
 
         //记录下code
         cmMailCodeService.insertMailCode(code, userId);
         //缓存到redis 失效3小时
         redisService.set(userId.toString(), code);
         redisService.pexpire(userId.toString(), 180 * 60 * 1000L);
+//        redisTemplate.opsForHash().put("MAIL_CODE", userId.toString(), code);
 
         context.setVariable("code", code);
         context.setVariable("username", username);

@@ -2,8 +2,9 @@ package cn.itbat.thing.anyway.mapper;
 
 import cn.itbat.thing.anyway.model.CmUser;
 import cn.itbat.thing.anyway.model.CmUserExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CmUserMapper {
     int countByExample(CmUserExample example);
