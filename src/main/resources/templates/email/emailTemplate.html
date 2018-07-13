@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Thing-anyway</title>
+</head>
+<p th:text="|Hello ${username} , thanks for registering at Thing-anyway! |"></p>
+<p>Please click the following link to verify your e-mail address within 3 hours:</p>
+<a href="#" th:href="@{ http://192.168.158.178:8081/user/activate?{code}(code=${code}) }" th:text="|http://192.168.158.178:8081/user/activate?code=${code}|"></a>
+<p>Not working? Try copying and pasting it to your browser.</p>
+<a href="https://blog.itbat.cn">@2018 IT.BAT</a>
+</body>
+</html>

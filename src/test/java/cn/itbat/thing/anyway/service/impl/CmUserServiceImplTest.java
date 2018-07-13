@@ -8,8 +8,6 @@ import org.junit.Test;
 
 import javax.annotation.Resource;
 
-import static org.junit.Assert.*;
-
 /**
  * @author huahui.wu
  * @date 2018/7/12 11:14
@@ -22,7 +20,7 @@ public class CmUserServiceImplTest extends BaseTest {
 
     @Test
     public void register() {
-            AbsResponse absResponse = cmUserService.register("test_123", "Whh123456489", "test@email.com");
+        AbsResponse absResponse = cmUserService.register("test_123457", "Whh123456489", "test@m.likie.win");
         Assert.assertNotNull(absResponse);
         System.out.println(absResponse);
     }

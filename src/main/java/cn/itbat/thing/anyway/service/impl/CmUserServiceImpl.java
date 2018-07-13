@@ -4,15 +4,16 @@ import cn.itbat.thing.anyway.common.constant.Constants;
 import cn.itbat.thing.anyway.common.utils.*;
 import cn.itbat.thing.anyway.mapper.CmUserMapper;
 import cn.itbat.thing.anyway.model.CmUser;
-import cn.itbat.thing.anyway.service.CmSaltService;
-import cn.itbat.thing.anyway.service.CmUserService;
-import cn.itbat.thing.anyway.service.RuOperationLogService;
+import cn.itbat.thing.anyway.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
-
-import static cn.itbat.thing.anyway.common.constant.Constants.USER_STATUS_VALID;
+import java.util.Date;
 
 /**
  * @author log.r   (;￢＿￢)   
@@ -28,6 +29,9 @@ public class CmUserServiceImpl implements CmUserService {
     private CmSaltService cmSaltService;
 
     @Resource
+    private MailService mailService;
+
+    @Resource
     private RuOperationLogService ruOperationLogService;
 
     @Override
@@ -35,6 +39,7 @@ public class CmUserServiceImpl implements CmUserService {
         return cmUserMapper.findByName(userName);
     }
 
+    @Transactional
     @Override
     public AbsResponse register(String userName, String password, String email) {
         // todo 以后需要对密码加密传输
@@ -60,7 +65,7 @@ public class CmUserServiceImpl implements CmUserService {
             return AbsResponse.warn("该用户名已被使用！");
         }
 
-        //校验邮箱是否被使用
+        //校验邮箱是否被使用，
 
 
         Long userId = DOCN.getEmpId();
@@ -75,12 +80,15 @@ public class CmUserServiceImpl implements CmUserService {
         cmUser.setUserPassword(password);
         cmUser.setSaltUkid(saltUkid);
         cmUser.setEmail(email);
-        cmUser.setStatus(Constants.USER_STATUS_VALID);
+        cmUser.setStatus(Constants.USER_STATUS_VALID_EMAIL);
         cmUserMapper.insertSelective(cmUser);
+
+        //发送激活邮件
+        mailService.sendEmail(userName, userId, email);
+
         //记录日志
         ruOperationLogService.insertOperationLog(userId, "USER_ID", "用户注册", userId, "注册成功");
         return AbsResponse.ok();
     }
-
 
 }
