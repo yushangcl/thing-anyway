@@ -84,11 +84,10 @@ public class CmUserServiceImpl implements CmUserService {
         cmUser.setStatus(Constants.USER_STATUS_VALID_EMAIL);
         cmUserMapper.insertSelective(cmUser);
         //发送激活邮件
-//        mailService.sendEmail(userName, userId, email);
+        mailService.sendEmail(userName, userId, email);
 
         //记录日志
         ruOperationLogService.insertOperationLog(userId, "USER_ID", "用户注册", userId, "注册成功");
-        cmUserMapper.insertSelective(cmUser);
         return AbsResponse.ok();
     }
 

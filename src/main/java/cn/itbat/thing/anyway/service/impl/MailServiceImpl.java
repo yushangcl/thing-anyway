@@ -9,6 +9,7 @@ import cn.itbat.thing.anyway.service.RedisService;
 import cn.itbat.thing.anyway.service.RuOperationLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,6 +25,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author log.r   (;￢＿￢)   
@@ -43,6 +46,9 @@ public class MailServiceImpl implements MailService {
 
     @Resource
     private TemplateEngine templateEngine;
+
+    @Resource
+    private RabbitTemplate rabbitTemplate;
 
     @Resource
     private RedisService redisService;
@@ -116,8 +122,15 @@ public class MailServiceImpl implements MailService {
         context.setVariable("username", username);
         String emailContent = templateEngine.process("email/emailTemplate", context);
 
-        Boolean status = this.sendEmail(mailAddress, "「Thing」请激活您的账号", emailContent);
-        //记录日志，不尝试重发
-        operationLogService.insertOperationLog(userId, "USER_ID", "注册邮件发送", userId, status ? "发送成功" : "发送失败");
+//        Boolean status = this.sendEmail(mailAddress, "「Thing」请激活您的账号", emailContent);
+        Map<String, String> map = new HashMap<>(3);
+        map.put("userId", userId.toString());
+        map.put("address", mailAddress);
+        map.put("subject", "「Thing」请激活您的账号");
+        map.put("content", emailContent);
+
+        //发送mq消息
+        rabbitTemplate.convertAndSend("email-register", map);
+
     }
 }
