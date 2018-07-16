@@ -42,7 +42,7 @@ public class CmUserServiceImpl implements CmUserService {
 
 
     @Override
-    public AbsResponse register(String userName, String password, String email) throws Exception {
+    public AbsResponse register(String userName, String password, String email) {
         // todo 以后需要对密码加密传输
 
         //判断用户名格式 英文，数字组合 6-16位
@@ -83,14 +83,13 @@ public class CmUserServiceImpl implements CmUserService {
         cmUser.setEmail(email);
         cmUser.setStatus(Constants.USER_STATUS_VALID_EMAIL);
         cmUserMapper.insertSelective(cmUser);
-
         //发送激活邮件
-        mailService.sendEmail(userName, userId, email);
+//        mailService.sendEmail(userName, userId, email);
 
         //记录日志
         ruOperationLogService.insertOperationLog(userId, "USER_ID", "用户注册", userId, "注册成功");
-        throw new Exception();
-//        return AbsResponse.ok();
+        cmUserMapper.insertSelective(cmUser);
+        return AbsResponse.ok();
     }
 
 }

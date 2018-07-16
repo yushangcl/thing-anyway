@@ -7,12 +7,14 @@ import cn.itbat.thing.anyway.model.CmMailCode;
 import cn.itbat.thing.anyway.service.CmMailCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author log.r   (;￢＿￢)   
  * @date 2018-07-13 下午3:40
  **/
 @Service
+@Transactional
 public class CmMailCodeServiceImpl implements CmMailCodeService {
 
     @Autowired

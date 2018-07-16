@@ -26,7 +26,7 @@ public class RegisterController {
     private CmUserService cmUserService;
 
     @Resource
-    RedisService redisService;
+    private RedisService redisService;
 
     @RequestMapping("/web")
     public AbsResponse register(@RequestBody Map<String, Object> map) {

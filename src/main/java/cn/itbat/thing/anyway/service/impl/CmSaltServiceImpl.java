@@ -6,12 +6,14 @@ import cn.itbat.thing.anyway.model.CmSalt;
 import cn.itbat.thing.anyway.service.CmSaltService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author log.r   (;￢＿￢)   
  * @date 2018-07-11 下午2:42
  **/
 @Service
+@Transactional
 public class CmSaltServiceImpl implements CmSaltService {
 
     @Autowired

@@ -26,6 +26,5 @@ public interface CmUserService {
      * @param email    邮箱
      * @return
      */
-    @Transactional
-    AbsResponse register(String userName, String password, String email) throws Exception;
+    AbsResponse register(String userName, String password, String email);
 }

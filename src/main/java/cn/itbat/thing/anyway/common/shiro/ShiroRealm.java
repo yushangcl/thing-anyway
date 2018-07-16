@@ -13,6 +13,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
 import java.util.HashSet;
@@ -26,13 +27,16 @@ import java.util.Set;
  * @date 2018-07-11 上午10:46
  **/
 public class ShiroRealm extends AuthorizingRealm {
-
+    //延迟加载，等spring 启动完成后加载
+    @Lazy
     @Resource
     private SysMenuService sysMenuService;
 
+    @Lazy
     @Resource
     private SysRoleService sysRoleService;
 
+    @Lazy
     @Resource
     private CmUserService cmUserService;
 

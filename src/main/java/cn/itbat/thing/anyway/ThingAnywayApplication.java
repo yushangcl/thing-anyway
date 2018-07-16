@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -14,10 +15,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author log.r   (;￢＿￢)   
  * @date 2018-07-04 下午1:58
  **/
-@EnableTransactionManagement
-@MapperScan({"cn.itbat.thing.anyway.mapper"})
-@ImportResource({"classpath*:spring/spring-ukid-initialize.xml","classpath*:spring/spring-context-config.xml"})
 @SpringBootApplication
+@EnableTransactionManagement
+@EnableCaching
+@MapperScan("cn.itbat.thing.anyway.mapper")
+@ImportResource({"classpath*:spring/spring-ukid-initialize.xml","classpath*:spring/spring-context-config.xml"})
 public class ThingAnywayApplication {
 
     public static void main(String[] args) {

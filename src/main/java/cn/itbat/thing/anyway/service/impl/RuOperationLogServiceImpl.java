@@ -7,6 +7,8 @@ import cn.itbat.thing.anyway.service.RuOperationLogService;
 import cn.itbat.thing.anyway.common.utils.UKID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -17,6 +19,7 @@ import java.util.Date;
  * @date 2018-07-10 下午4:15
  **/
 @Service
+@Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
 public class RuOperationLogServiceImpl implements RuOperationLogService {
 
     @Autowired

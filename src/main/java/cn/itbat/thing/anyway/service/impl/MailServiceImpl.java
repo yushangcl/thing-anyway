@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -99,7 +98,6 @@ public class MailServiceImpl implements MailService {
      * @param username    用户名
      * @param mailAddress 收件人地址
      */
-//    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
     public void sendEmail(String username, Long userId, String mailAddress) {
         //创建邮件正文
@@ -118,7 +116,6 @@ public class MailServiceImpl implements MailService {
         context.setVariable("username", username);
         String emailContent = templateEngine.process("email/emailTemplate", context);
 
-        System.out.println(emailContent);
         Boolean status = this.sendEmail(mailAddress, "「Thing」请激活您的账号", emailContent);
         //记录日志，不尝试重发
         operationLogService.insertOperationLog(userId, "USER_ID", "注册邮件发送", userId, status ? "发送成功" : "发送失败");

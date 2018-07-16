@@ -19,9 +19,14 @@ public class CmUserServiceImplTest extends BaseTest {
     private CmUserService cmUserService;
 
     @Test
-    public void register() {
-//        AbsResponse absResponse = cmUserService.register("test_123457", "Whh123456489", "test@m.likie.win");
-//        Assert.assertNotNull(absResponse);
-//        System.out.println(absResponse);
+    public void register() throws Exception{
+        AbsResponse absResponse = cmUserService.register("test_2123457", "Whh123456489", "test@m.likie.win");
+        Assert.assertNotNull(absResponse);
+        System.out.println(absResponse);
+    }
+
+    @Test
+    public void findByName() {
+        cmUserService.findByName("");
     }
 }
