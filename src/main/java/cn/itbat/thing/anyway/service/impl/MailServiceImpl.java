@@ -3,6 +3,8 @@ package cn.itbat.thing.anyway.service.impl;
 import cn.itbat.thing.anyway.common.utils.DateUtil;
 import cn.itbat.thing.anyway.common.utils.RandomUtil;
 import cn.itbat.thing.anyway.common.utils.StringUtils;
+import cn.itbat.thing.anyway.mq.conf.MailMqConfig;
+import cn.itbat.thing.anyway.mq.conf.RabbitConfig;
 import cn.itbat.thing.anyway.service.CmMailCodeService;
 import cn.itbat.thing.anyway.service.MailService;
 import cn.itbat.thing.anyway.service.RedisService;
@@ -10,6 +12,7 @@ import cn.itbat.thing.anyway.service.RuOperationLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,6 +26,7 @@ import org.thymeleaf.context.Context;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.awt.print.Book;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -130,7 +134,6 @@ public class MailServiceImpl implements MailService {
         map.put("content", emailContent);
 
         //发送mq消息
-        rabbitTemplate.convertAndSend("email-register", map);
-
+        rabbitTemplate.convertAndSend(MailMqConfig.MAIL_REGISTER, map);
     }
 }

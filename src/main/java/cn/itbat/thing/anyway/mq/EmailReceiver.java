@@ -1,12 +1,18 @@
 package cn.itbat.thing.anyway.mq;
 
+import cn.itbat.thing.anyway.mq.conf.MailMqConfig;
+import cn.itbat.thing.anyway.mq.conf.RabbitConfig;
 import cn.itbat.thing.anyway.service.MailService;
 import cn.itbat.thing.anyway.service.RuOperationLogService;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import com.rabbitmq.client.Channel;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -15,7 +21,7 @@ import java.util.Map;
  * @description
  */
 @Component
-@RabbitListener(queues = "email-register")
+@RabbitListener(queues = MailMqConfig.MAIL_REGISTER)
 public class EmailReceiver {
 
     @Resource
