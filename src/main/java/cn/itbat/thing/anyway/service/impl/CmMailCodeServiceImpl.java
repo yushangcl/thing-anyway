@@ -29,7 +29,7 @@ public class CmMailCodeServiceImpl implements CmMailCodeService {
         cmMailCode.setEmailCodeUkid(UKID.getUKID());
         cmMailCode.setCode(code);
         cmMailCode.setUserId(userId);
-        cmMailCode.setState(MailCodeEnum.VALID.code);
+        cmMailCode.setState(MailCodeEnum.VALID.getCode());
         cmMailCodeMapper.insertSelective(cmMailCode);
         return cmMailCode.getEmailCodeUkid();
     }
