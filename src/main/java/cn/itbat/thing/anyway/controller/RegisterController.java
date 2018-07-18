@@ -1,15 +1,17 @@
 package cn.itbat.thing.anyway.controller;
 
 import cn.itbat.thing.anyway.common.utils.AbsResponse;
-import cn.itbat.thing.anyway.common.utils.DateUtil;
 import cn.itbat.thing.anyway.common.utils.StringUtils;
+import cn.itbat.thing.anyway.enums.UserStatusEnum;
+import cn.itbat.thing.anyway.service.CmMailCodeService;
 import cn.itbat.thing.anyway.service.CmUserService;
 import cn.itbat.thing.anyway.service.RedisService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -24,6 +26,9 @@ public class RegisterController {
 
     @Resource
     private CmUserService cmUserService;
+
+    @Resource
+    private CmMailCodeService cmMailCodeService;
 
     @Resource
     private RedisService redisService;
@@ -47,15 +52,21 @@ public class RegisterController {
 
     @GetMapping(value = "/activate")
     public AbsResponse activate(String code) {
-        //處理key
+        // 處理key
         Long userId = Long.valueOf(code.substring(14, 20));
-        String vCode = redisService.get(userId.toString());
-        if (vCode.equals(code)) {
-            //删除key
-            redisService.del(userId.toString());
+        String userId2 = redisService.get(code);
+        if (StringUtils.isNotEmpty(userId2) && userId2.equals(userId.toString())) {
+            // 删除key
+            redisService.del(code);
+
+            // 将数据库中的code状态改成已使用
+            cmMailCodeService.updateCodeStatus(code, userId);
+
+            // 更改用户注册状态
+            cmUserService.updateUserStatus(userId, UserStatusEnum.VALID);
             return AbsResponse.ok("邮箱验证成功");
         }
-        return AbsResponse.warn("激活链接");
+        return AbsResponse.warn("激活链接已失效，请重新发送激活邮件！");
     }
 
 }

@@ -14,4 +14,12 @@ public interface CmMailCodeService {
      * @return
      */
     Long insertMailCode(String code, Long userId);
+
+    /**
+     * 更新 code状态
+     *
+     * @param code
+     * @param userId
+     */
+    void updateCodeStatus(String code, Long userId);
 }

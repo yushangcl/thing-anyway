@@ -118,8 +118,8 @@ public class MailServiceImpl implements MailService {
         //记录下code
         cmMailCodeService.insertMailCode(code, userId);
         //缓存到redis 失效3小时
-        redisService.set(userId.toString(), code);
-        redisService.pexpire(userId.toString(), 180 * 60 * 1000L);
+        redisService.set(code, userId.toString());
+        redisService.pexpire(code, 180 * 60 * 1000L);
 //        redisTemplate.opsForHash().put("MAIL_CODE", userId.toString(), code);
 
         context.setVariable("code", code);

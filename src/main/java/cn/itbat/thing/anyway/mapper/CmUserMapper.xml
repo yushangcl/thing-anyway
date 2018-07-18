@@ -307,5 +307,11 @@
     FROM cm_user c
     WHERE c.user_name = #{userName}
   </select>
-  <cache />
+    <select id="findByEmail" resultType="cn.itbat.thing.anyway.model.CmUser">
+      SELECT
+        <include refid="Base_Column_List"/>
+      FROM cm_user c
+      WHERE c.email = #{emailAddress}
+    </select>
+    <cache />
 </mapper>

@@ -30,4 +30,6 @@ public interface CmUserMapper {
     int updateByPrimaryKey(CmUser record);
 
     CmUser findByName(@Param("userName") String userName);
+
+    CmUser findByEmail(@Param("emailAddress") String emailAddress);
 }

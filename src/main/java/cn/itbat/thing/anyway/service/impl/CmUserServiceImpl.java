@@ -1,19 +1,19 @@
 package cn.itbat.thing.anyway.service.impl;
 
-import cn.itbat.thing.anyway.common.constant.Constants;
 import cn.itbat.thing.anyway.common.utils.*;
+import cn.itbat.thing.anyway.constant.Constants;
+import cn.itbat.thing.anyway.enums.UserStatusEnum;
 import cn.itbat.thing.anyway.mapper.CmUserMapper;
 import cn.itbat.thing.anyway.model.CmUser;
-import cn.itbat.thing.anyway.service.*;
+import cn.itbat.thing.anyway.service.CmSaltService;
+import cn.itbat.thing.anyway.service.CmUserService;
+import cn.itbat.thing.anyway.service.MailService;
+import cn.itbat.thing.anyway.service.RuOperationLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * @author log.r   (;￢＿￢)   
@@ -38,6 +38,21 @@ public class CmUserServiceImpl implements CmUserService {
     @Override
     public CmUser findByName(String userName) {
         return cmUserMapper.findByName(userName);
+    }
+
+    @Override
+    public void updateUserStatus(Long userId, UserStatusEnum status) {
+        //更新用户状态，需要判断状态的不可逆转
+        CmUser cmUser = cmUserMapper.selectByPrimaryKey(userId);
+        if (UserStatusEnum.compare(cmUser.getStatus(), status.getCode())) {
+            cmUser.setStatus(status.getCode());
+            cmUser.setUpdateUserId(Constants.SYS_USER_ID);
+            cmUserMapper.updateByPrimaryKeySelective(cmUser);
+
+            //记录用户状态更新日志
+            ruOperationLogService.insertOperationLog(userId, "USER_STATUS_UPDATE", "用户状态更新",
+                    userId, status.getCode() + ":" + status.getMessage());
+        }
     }
 
 
@@ -67,7 +82,9 @@ public class CmUserServiceImpl implements CmUserService {
         }
 
         //校验邮箱是否被使用，
-
+        if (cmUserMapper.findByEmail(email) != null) {
+            return AbsResponse.warn("该邮箱地址已被使用！");
+        }
 
         Long userId = DOCN.getEmpId();
         // 生成密码盐值
@@ -81,7 +98,7 @@ public class CmUserServiceImpl implements CmUserService {
         cmUser.setUserPassword(password);
         cmUser.setSaltUkid(saltUkid);
         cmUser.setEmail(email);
-        cmUser.setStatus(Constants.USER_STATUS_VALID_EMAIL);
+        cmUser.setStatus(UserStatusEnum.NOT_EFFECTIVE.getCode());
         cmUserMapper.insertSelective(cmUser);
         //发送激活邮件
         mailService.sendEmail(userName, userId, email);

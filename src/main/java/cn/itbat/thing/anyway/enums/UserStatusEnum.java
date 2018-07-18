@@ -1,33 +1,38 @@
 package cn.itbat.thing.anyway.enums;
 
 /**
- * Mail Code 状态
+ * 用户状态枚举类
+ *
  * @author log.r   (;￢＿￢)   
- * @date 2018-07-13 下午3:44
+ * @date 2018-07-18 下午2:43
  **/
-public enum MailCodeEnum {
+public enum UserStatusEnum {
+
+    /**
+     * 注册未验证邮箱
+     */
+    NOT_EFFECTIVE(0, "NOT_EFFECTIVE"),
+
     /**
      * 有效
      */
-    VALID(0, "VALID"),
+    VALID(10, "VALID"),
 
     /**
-     * 被使用
+     * 停用
      */
-    USED(1, "USED"),
+    DISABLE(20, "DISABLE"),
 
     /**
      * 失效
      */
-    INVALID(5, "INVALID"),
-
-    ;
+    INVALID(50, "INVALID"),;
 
     private int code;
 
     private String message;
 
-    MailCodeEnum(int code, String message) {
+    UserStatusEnum(int code, String message) {
         this.code = code;
         this.message = message;
     }
@@ -47,4 +52,9 @@ public enum MailCodeEnum {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public static boolean compare(int code1, int code2) {
+        return code1 <= code2;
+    }
+
 }

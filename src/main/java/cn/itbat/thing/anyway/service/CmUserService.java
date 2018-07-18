@@ -1,8 +1,8 @@
 package cn.itbat.thing.anyway.service;
 
 import cn.itbat.thing.anyway.common.utils.AbsResponse;
+import cn.itbat.thing.anyway.enums.UserStatusEnum;
 import cn.itbat.thing.anyway.model.CmUser;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author log.r   (;￢＿￢)   
@@ -17,6 +17,14 @@ public interface CmUserService {
      * @return CmUser
      */
     CmUser findByName(String userName);
+
+    /**
+     * 更新用户状态
+     *
+     * @param userId 用户id
+     * @param status 状态 UserStatusEnum
+     */
+    void updateUserStatus(Long userId, UserStatusEnum status);
 
     /**
      * 用户注册 （暂未验证邮箱）
