@@ -35,7 +35,7 @@ public class RegisterController {
 
     @RequestMapping("/web")
     public AbsResponse register(@RequestBody Map<String, Object> map) {
-        String userName = String.valueOf(map.get("userName"));
+        String userName = String.valueOf(map.get("username"));
         String password = String.valueOf(map.get("password"));
         String email = String.valueOf(map.get("email"));
 
