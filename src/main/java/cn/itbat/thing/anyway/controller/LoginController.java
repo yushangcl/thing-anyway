@@ -83,6 +83,10 @@ public class LoginController extends BaseController {
         String remark = null;
         try {
             super.login(token);
+
+            //判断用户状态，是否验证邮箱
+
+
             remark = "login_success";
             return AbsResponse.ok();
         } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e) {

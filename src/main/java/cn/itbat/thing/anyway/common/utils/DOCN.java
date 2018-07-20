@@ -1,6 +1,7 @@
 package cn.itbat.thing.anyway.common.utils;
 
 
+import cn.itbat.thing.anyway.common.config.SpringContextUtil;
 import cn.itbat.thing.anyway.service.SyNextNumberService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

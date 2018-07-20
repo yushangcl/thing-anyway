@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableCaching
 @MapperScan("cn.itbat.thing.anyway.mapper")
-@ImportResource({"classpath*:spring/spring-ukid-initialize.xml","classpath*:spring/spring-context-config.xml"})
 public class ThingAnywayApplication {
 
     public static void main(String[] args) {
