@@ -64,6 +64,9 @@ public class RegisterController {
 
             // 更改用户注册状态
             cmUserService.updateUserStatus(userId, UserStatusEnum.VALID);
+
+            //TODO 初始化权限
+
             return AbsResponse.ok("邮箱验证成功");
         }
         return AbsResponse.warn("激活链接已失效，请重新发送激活邮件！");
