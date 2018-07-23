@@ -1,4 +1,4 @@
-package cn.itbat.thing.anyway.service;
+package cn.itbat.thing.anyway.common.listener;
 
 
 import cn.itbat.thing.anyway.common.utils.DOCN;
