@@ -15,12 +15,13 @@ public class UKIDTest extends BaseTest {
     @Test
     public void test() throws Exception {
         Set<Long> longs = new HashSet<>();
-
+        Long start= System.currentTimeMillis();
         for (int i = 0; i < 100; i++) {
             Long ukid = UKID.getUKID();
             longs.add(ukid);
             System.out.println(ukid);
         }
+        System.out.println(System.currentTimeMillis() - start);
         System.out.println(longs.size());
     }
 

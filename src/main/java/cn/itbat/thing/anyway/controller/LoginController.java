@@ -122,10 +122,10 @@ public class LoginController extends BaseController {
         }
     }
 
-    @RequestMapping("/")
-    public String redirectIndex() {
-        return "redirect:/index";
-    }
+//    @RequestMapping("/")
+//    public String redirectIndex() {
+//        return "redirect:/index";
+//    }
 
     @GetMapping("/403")
     public String forbid() {

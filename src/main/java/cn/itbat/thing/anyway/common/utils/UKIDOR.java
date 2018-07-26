@@ -1,6 +1,5 @@
 package cn.itbat.thing.anyway.common.utils;
 
-import cn.itbat.thing.anyway.common.config.SpringContextUtil;
 import cn.itbat.thing.anyway.service.SyNextNumberService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -84,8 +83,7 @@ public class UKIDOR {
     private String calaDayString(String no) {
         String date = no.substring(4, 10);
         date = String.valueOf(DateUtil.getDay(date));
-        String dayStr = StringUtils.lpad(date, 4, "0");
-        return dayStr;
+        return StringUtils.lpad(date, 4, "0");
     }
 
     /**

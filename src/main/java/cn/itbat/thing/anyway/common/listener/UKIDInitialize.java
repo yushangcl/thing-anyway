@@ -22,5 +22,6 @@ public class UKIDInitialize implements ApplicationListener<ContextRefreshedEvent
         UKID.init();
 
         DOCN.init();
+
     }
 }
