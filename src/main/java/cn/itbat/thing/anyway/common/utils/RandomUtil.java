@@ -62,9 +62,29 @@ public class RandomUtil {
         return generateMixStr(length).toUpperCase();
     }
 
+    /**
+     * 返回一个定长的税基纯大写字符串，但是每隔五位使用"-"隔开
+     *
+     * @param length 长度（不包含"-"）
+     * @return
+     */
+    public static String getNumberUpperStrLine(int length) {
+        StringBuffer sb = new StringBuffer();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            if (i != 0 && i % 5 == 0) {
+                sb.append("-");
+            }
+            sb.append(allChar.charAt(random.nextInt(allChar.length())));
+
+        }
+        return sb.toString();
+
+    }
+
 
     public static void main(String[] args) {
-        System.out.println(generateStr(10));
+        System.out.println(getNumberUpperStrLine(100));
     }
 
 }

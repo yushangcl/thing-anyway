@@ -6,8 +6,6 @@ import org.junit.Test;
 
 import javax.annotation.Resource;
 
-import static org.junit.Assert.*;
-
 /**
  * @author huahui.wu
  * @date 2018/7/26 15:49
@@ -20,6 +18,6 @@ public class CosUtilsTest extends BaseTest {
 
     @Test
     public void uploadFile() {
-        cosService.uploadFile("E:\\Download\\20180626145232.png");
+        System.out.println(cosService.uploadFile("E:\\Download\\20180626145232.png"));
     }
 }

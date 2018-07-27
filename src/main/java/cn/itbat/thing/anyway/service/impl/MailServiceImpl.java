@@ -63,7 +63,7 @@ public class MailServiceImpl implements MailService {
     @Resource
     private RuOperationLogService operationLogService;
 
-    @Value("${mail.fromMail.addr}")
+    @Value("${spring.mail.username}")
     private String from;
 
     @Override

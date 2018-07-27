@@ -80,6 +80,8 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/vCode", "anon");
         filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/", "anon");
+        filterChainDefinitionMap.put("/uploads", "anon");
+        filterChainDefinitionMap.put("/uploads/**", "anon");
         filterChainDefinitionMap.put("/**", "user");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
