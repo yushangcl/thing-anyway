@@ -23,8 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author huahui.wu
@@ -122,7 +120,7 @@ public class CosServiceImpl implements CosService {
 
     // 上传文件, 根据文件大小自动选择简单上传或者分块上传。
     @Override
-    public void uploadFileManager(String filePath) {
+    public String uploadFileManager(String filePath) {
         if (cosClient == null) {
             init();
         }
@@ -146,5 +144,6 @@ public class CosServiceImpl implements CosService {
 
         transferManager.shutdownNow();
         cosClient.shutdown();
+        return key;
     }
 }
