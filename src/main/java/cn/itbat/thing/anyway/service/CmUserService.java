@@ -1,6 +1,6 @@
 package cn.itbat.thing.anyway.service;
 
-import cn.itbat.thing.anyway.common.utils.AbsResponse;
+import cn.itbat.thing.anyway.common.base.AbsResponse;
 import cn.itbat.thing.anyway.enums.UserStatusEnum;
 import cn.itbat.thing.anyway.model.CmUser;
 

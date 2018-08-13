@@ -1,7 +1,7 @@
 package cn.itbat.thing.anyway.controller;
 
 import cn.itbat.thing.anyway.common.base.BaseController;
-import cn.itbat.thing.anyway.common.utils.AbsResponse;
+import cn.itbat.thing.anyway.common.base.AbsResponse;
 import cn.itbat.thing.anyway.common.utils.MD5Utils;
 import cn.itbat.thing.anyway.common.utils.StringUtils;
 import cn.itbat.thing.anyway.common.utils.vcode.Captcha;
@@ -23,7 +23,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 /**
  * @author log.r   (;￢＿￢)   

@@ -51,7 +51,8 @@ public class FileUploadController {
         String filePath = getFilePath() + file.getOriginalFilename();
         // TODO 将文件写入到指定目录（具体开发中有可能是将文件写入到云存储/或者指定目录通过 Nginx 进行 gzip 压缩和反向代理，此处只是为了演示故将地址写成本地电脑指定目录）
         file.transferTo(new File(filePath));
-        cosService.uploadFile(filePath);
+        // key 随机生成的文件名
+        String key = cosService.uploadFileManager(filePath);
         Map<String, String> result = new HashMap<>(16);
         result.put("contentType", file.getContentType());
         result.put("fileName", file.getOriginalFilename());

@@ -1,10 +1,6 @@
-package cn.itbat.thing.anyway.common.utils;
+package cn.itbat.thing.anyway.common.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author log.r   (;￢＿￢)   

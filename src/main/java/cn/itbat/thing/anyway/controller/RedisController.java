@@ -1,11 +1,9 @@
 package cn.itbat.thing.anyway.controller;
 
 import cn.itbat.thing.anyway.common.domain.RedisInfo;
-import cn.itbat.thing.anyway.common.utils.AbsResponse;
+import cn.itbat.thing.anyway.common.base.AbsResponse;
 import cn.itbat.thing.anyway.service.RedisService;
 import com.alibaba.fastjson.JSON;
-import lombok.extern.java.Log;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

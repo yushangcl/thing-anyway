@@ -1,7 +1,7 @@
 package cn.itbat.thing.anyway.service.impl;
 
 import cn.itbat.thing.anyway.BaseTest;
-import cn.itbat.thing.anyway.common.utils.AbsResponse;
+import cn.itbat.thing.anyway.common.base.AbsResponse;
 import cn.itbat.thing.anyway.service.CmUserService;
 import org.junit.Assert;
 import org.junit.Test;
